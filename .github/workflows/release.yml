@@ -17,7 +17,7 @@ jobs:
           RELEASE_BUILD: ${{ github.run_number }}
         run: |
           export OPENSHELF_VERSION="${RELEASE_TAG#v}"
-          export OPENSHELF_BUILD_NUMBER="$RELEASE_BUILD"
+          export OPENSHELF_BUILD_NUMBER="$((RELEASE_BUILD + 1))"
           ./scripts/build.sh --arch arm64 --arch x86_64
       - name: Sign and publish update
         env:

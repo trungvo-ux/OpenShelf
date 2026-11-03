@@ -36,5 +36,7 @@ NOTES
 if [[ "${OPENSHELF_PREPARE_ONLY:-0}" == "1" ]]; then
   printf 'Prepared signed release assets in %s\n' "$release_dir"
 else
-  gh release create "$tag" "$release_dir/OpenShelf.zip" "$release_dir/appcast.xml" --repo "$repository" --title "OpenShelf ${tag#v}" --notes-file "$release_dir/notes.md"
+  release_args=(release create "$tag" "$release_dir/OpenShelf.zip" "$release_dir/appcast.xml" --repo "$repository" --title "OpenShelf ${tag#v}" --notes-file "$release_dir/notes.md")
+  if [[ "$tag" == *-* ]]; then release_args+=(--prerelease); fi
+  gh "${release_args[@]}"
 fi

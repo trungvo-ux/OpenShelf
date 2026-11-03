@@ -52,7 +52,7 @@ The loose bundle under Documents failed strict signature verification after Find
 
 The source includes Sparkle 2.9.6, a dedicated public update key, HTTPS feed configuration, and signed archive/appcast generation. The Apple Silicon/Intel universal build succeeded. The public v0.1.0 archive and feed were downloaded anonymously; both signatures verified and the remote archive matched the local checksum. The released app launched, opened Settings, and its live update check reported that 0.1.0 was the newest available version. The archive passes strict recursive code-signature verification after extraction. Full update installation remains unverified.
 
-Source and release assets are public at https://github.com/trungvo-ux/OpenShelf. GitHub rejected workflow-file creation through both the CLI credential (missing workflow scope) and the connected integration (403). The workflows are published as inactive templates in WorkflowTemplates. Releases are currently signed and published manually; activation requires workflow-write authorization.
+Source and release assets are public at https://github.com/trungvo-ux/OpenShelf. Initial workflow-file creation was rejected by the CLI credential (missing workflow scope) and connected integration (403). The user subsequently authorized a GitHub credential refresh, and the workflow scope was confirmed. Active CI/release definitions now live in .github/workflows. Current run results are available at https://github.com/trungvo-ux/OpenShelf/actions. The initial v0.1.0 release was signed and published manually; future version tags use release automation.
 
 ## Remaining validation
 

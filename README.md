@@ -59,7 +59,7 @@ Tests use unique named pasteboards and temporary storage, leaving the general cl
 
 ## Releases
 
-Maintainers can build a universal app and publish a signed release with `scripts/release.sh <private-key-file> v0.1.1`. The current releases are published manually. CI and release automation are supplied in `WorkflowTemplates/`; activating them under `.github/workflows/` requires GitHub workflow-write authorization, which the current publishing credentials do not have. The release template uses the repository's `SPARKLE_PRIVATE_KEY` secret. Private keys are not part of the source or downloads.
+Maintainers can build a universal app and publish a signed release with `scripts/release.sh <private-key-file> v0.1.1`. CI tests and universal builds run on pushes and pull requests. Version tags activate `.github/workflows/release.yml`, which signs and publishes releases using the repository's `SPARKLE_PRIVATE_KEY` secret. Prerelease tags remain prereleases and do not replace the stable update feed. Private keys are not part of the source or downloads.
 
 `ReleaseConfig.json` contains the public update key and feed URL. Forks should replace those with their own release configuration. Optional `OPENSHELF_SIGNING_IDENTITY` enables Developer ID signing in the local build script; Developer ID credentials and notarization are not configured in CI.
 
