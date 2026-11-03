@@ -1,0 +1,7 @@
+{
+  "build" : "1",
+  "feed_url" : "https:\/\/github.com\/trungvo-ux\/OpenShelf\/releases\/latest\/download\/appcast.xml",
+  "repository" : "trungvo-ux\/OpenShelf",
+  "sparkle_public_key" : "Ly+ZMCxuS8b6pQHwGzPkOwH5LM8GrsXhh5s7dN4xmB4=",
+  "version" : "0.1.0"
+}
