@@ -1,0 +1,16 @@
+name: Build and test
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - name: Test isolated clipboard fixtures
+        run: swift test
+      - name: Build universal app
+        run: ./scripts/build.sh --arch arm64 --arch x86_64

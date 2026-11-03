@@ -1,0 +1,32 @@
+name: Publish signed update
+on:
+  push:
+    tags: ['v[0-9]*']
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - name: Test
+        run: swift test
+      - name: Build universal app
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+          RELEASE_BUILD: ${{ github.run_number }}
+        run: |
+          export OPENSHELF_VERSION="${RELEASE_TAG#v}"
+          export OPENSHELF_BUILD_NUMBER="$RELEASE_BUILD"
+          ./scripts/build.sh --arch arm64 --arch x86_64
+      - name: Sign and publish update
+        env:
+          SPARKLE_PRIVATE_KEY: ${{ secrets.SPARKLE_PRIVATE_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          key_file="$(mktemp)"
+          chmod 600 "$key_file"
+          trap 'rm -f "$key_file"' EXIT
+          printf '%s' "$SPARKLE_PRIVATE_KEY" > "$key_file"
+          ./scripts/release.sh "$key_file" "$RELEASE_TAG"

@@ -50,7 +50,7 @@ REA's DMG extraction operation reported that this format had no extraction reade
 | Optional link metadata / local cache | Packaged Privacy labels | Apple's Link Presentation; disk cache; opt-in | Full URL hashed into a fixed-size key; network behavior not certified |
 | Launch at login | General UI | SMAppService, approval/error handling | Requires installed bundle; not enabled during testing |
 | Onboarding / menu bar / settings | Running UI and packaged labels | Native first-run notice, status menu, categorized settings | Shelf + settings runtime verified; wording and onboarding flow differ |
-| Automatic signed updates | Plist + packaged update strings | Sparkle 2.9.6; signed appcast and archive generation; public GitHub release channel | Integration compiles; release hosting and install smoke test in progress |
+| Automatic signed updates | Plist + packaged update strings | Sparkle 2.9.6; signed appcast and archive generation; public GitHub release channel | Public signed feed/archive verified; released app reports up to date; update installation remains pending |
 | License / trial / three-Mac limit | Official page | Removed: unrestricted MIT use | Intentional change required by free/open-source goal |
 
 ## Implementation decisions and unknowns

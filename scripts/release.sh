@@ -10,6 +10,10 @@ tag="$2"
 if [[ ! "$tag" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[A-Za-z0-9.]+)?$ ]]; then
   printf 'Invalid release tag.\n' >&2; exit 2
 fi
+repository="$(python3 -c 'import json; print(json.load(open("ReleaseConfig.json"))["repository"])')"
+if [[ ! "$repository" =~ ^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$ ]]; then
+  printf 'Invalid release repository.\n' >&2; exit 2
+fi
 build_root="${OPENSHELF_BUILD_DIR:-.build}"
 tools="$build_root/artifacts/sparkle/Sparkle/bin"
 release_dir="dist/releases/$tag"
@@ -19,7 +23,7 @@ validation_dir="$(mktemp -d)"
 trap 'rm -rf "$validation_dir"' EXIT
 ditto -x -k "$release_dir/OpenShelf.zip" "$validation_dir"
 codesign --verify --deep --strict "$validation_dir/OpenShelf.app"
-"$tools/generate_appcast" --ed-key-file "$key_file" --download-url-prefix "https://github.com/trungvo-ux/OpenShelf/releases/download/$tag/" --link 'https://github.com/trungvo-ux/OpenShelf' "$release_dir"
+"$tools/generate_appcast" --ed-key-file "$key_file" --download-url-prefix "https://github.com/$repository/releases/download/$tag/" --link "https://github.com/$repository" "$release_dir"
 "$tools/sign_update" --ed-key-file "$key_file" "$release_dir/appcast.xml"
 "$tools/sign_update" --verify --ed-key-file "$key_file" "$release_dir/appcast.xml"
 cat > "$release_dir/notes.md" <<'NOTES'
@@ -32,5 +36,5 @@ NOTES
 if [[ "${OPENSHELF_PREPARE_ONLY:-0}" == "1" ]]; then
   printf 'Prepared signed release assets in %s\n' "$release_dir"
 else
-  gh release create "$tag" "$release_dir/OpenShelf.zip" "$release_dir/appcast.xml" --repo trungvo-ux/OpenShelf --title "OpenShelf ${tag#v}" --notes-file "$release_dir/notes.md"
+  gh release create "$tag" "$release_dir/OpenShelf.zip" "$release_dir/appcast.xml" --repo "$repository" --title "OpenShelf ${tag#v}" --notes-file "$release_dir/notes.md"
 fi
